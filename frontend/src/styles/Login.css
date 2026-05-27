@@ -1,0 +1,150 @@
+.login-page {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  background: linear-gradient(180deg, #ffffff 0%, #d8d6e8 100%);
+  font-family: Arial, sans-serif;
+}
+
+.login-left {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-content {
+  width: 78%;
+  max-width: 430px;
+}
+
+.brand-area {
+  display: flex;
+  align-items: center;
+  margin-bottom: 60px;
+}
+
+.brand-logo {
+  width: 82px;
+  margin-right: 12px;
+}
+
+.brand-area h1 {
+  color: #2b146f;
+  font-size: 32px;
+  margin: 0;
+  font-weight: 800;
+}
+
+.brand-area p {
+  margin: 4px 0 0;
+  font-size: 17px;
+  color: #333;
+}
+
+.brand-area span {
+  font-size: 16px;
+  color: #8a8a8a;
+}
+
+.login-content h2 {
+  color: #2b146f;
+  text-align: center;
+  font-size: 32px;
+  font-weight: 400;
+  margin-bottom: 18px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form label {
+  font-size: 17px;
+  color: #111;
+  margin-left: 20px;
+  margin-bottom: 4px;
+}
+
+.login-form input {
+  height: 46px;
+  border: 1px solid #777;
+  border-radius: 28px;
+  padding: 0 20px;
+  font-size: 14px;
+  outline: none;
+  margin-bottom: 14px;
+  background: transparent;
+}
+
+.forgot-button {
+  border: none;
+  background: transparent;
+  color: #333;
+  font-size: 16px;
+  margin: 12px 0 40px;
+  cursor: pointer;
+}
+
+.login-button {
+  width: 165px;
+  height: 45px;
+  border: none;
+  border-radius: 18px;
+  background: #2b146f;
+  color: white;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  align-self: center;
+}
+
+.register-text {
+  text-align: center;
+  margin-top: 28px;
+  font-size: 14px;
+  color: #111;
+}
+
+.register-text a {
+  color: #111;
+  text-decoration: underline;
+}
+
+.erro {
+  color: #c0392b;
+  text-align: center;
+  font-size: 14px;
+  margin: -20px 0 15px;
+}
+
+.login-right {
+  width: 50%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.login-right::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(21, 14, 55, 0.45);
+}
+
+@media (max-width: 850px) {
+  .login-right {
+    display: none;
+  }
+
+  .login-left {
+    width: 100%;
+  }
+
+  .login-content {
+    width: 85%;
+  }
+}
