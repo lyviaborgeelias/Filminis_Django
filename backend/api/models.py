@@ -29,7 +29,7 @@ class Filme(models.Model):
     ano = models.IntegerField()
     genero = models.CharField(max_length=100)
     sinopse = models.TextField()
-    poster = models.ImageField(upload_to="posters/", blank=True, null=True)
+    poster = models.URLField(max_length=500, blank=True, null=True)   
     diretor = models.CharField(max_length=100)
     atores = models.TextField()
     produtora = models.CharField(max_length=100)

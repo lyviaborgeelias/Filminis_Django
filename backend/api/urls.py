@@ -13,6 +13,7 @@ from .views import (
     FavoritosView,
     FavoritarFilmeView,
     DesfavoritarFilmeView,
+    LoginEmailView
 )
 
 urlpatterns = [
@@ -33,4 +34,5 @@ urlpatterns = [
     path("favoritos/", FavoritosView.as_view()),
     path("filmes/<int:pk>/favoritar/", FavoritarFilmeView.as_view()),
     path("filmes/<int:pk>/desfavoritar/", DesfavoritarFilmeView.as_view()),
+    path("login/", LoginEmailView.as_view()),
 ]

@@ -1,0 +1,330 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.editar-page {
+  min-height: 100vh;
+  background: #272a62;
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.editar-header {
+  width: 100%;
+  height: 66px;
+  background: #1d1b4d;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 55px;
+}
+
+.editar-header nav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.editar-header nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.editar-header nav a:hover {
+  color: #d7d5ff;
+}
+
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.header-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.logout-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.editar-container {
+  width: 100%;
+  padding: 36px 55px 80px;
+  min-height: calc(100vh - 114px);
+}
+
+.voltar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #d8d5f2;
+  text-decoration: none;
+  font-size: 15px;
+  margin-bottom: 24px;
+}
+
+.editar-topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.editar-topo h1 {
+  font-size: 40px;
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+}
+
+.editar-topo p {
+  color: #d8d5f2;
+  font-size: 15px;
+}
+
+.btn-comparacao {
+  width: 170px;
+  height: 40px;
+  border: none;
+  border-radius: 6px;
+  background: #4a9d92;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.editar-form {
+  padding: 55px 55px 0px;
+}
+
+.editar-form h2 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 30px;
+  margin-bottom: 34px;
+  font-weight: 600;
+}
+
+.editar-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 300;
+  margin-top: 18px;
+}
+
+.editar-form input,
+.editar-form textarea {
+  width: 100%;
+  background: #49477c;
+  border: 1px solid #7674aa;
+  border-radius: 5px;
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  outline: none;
+}
+
+.editar-form input {
+  height: 40px;
+  padding: 0 14px;
+}
+
+.editar-form textarea {
+  min-height: 143px;
+  resize: none;
+  padding: 14px;
+}
+
+.linha {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 46px;
+}
+
+.input-add {
+  display: flex;
+  gap: 16px;
+}
+
+.input-add button {
+  min-width: 100px;
+  background: #684263;
+  border: 1px solid #b67792;
+  color: #ff8f98;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.input-add button:hover {
+  background: rgba(255, 86, 102, 0.28);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.tags span {
+  background: #4e9c91;
+  color: white;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.botoes-form {
+  display: flex;
+  justify-content: center;
+  gap: 36px;
+  margin-top: 70px;
+}
+
+.botoes-form button {
+  width: 180px;
+  height: 42px;
+  border-radius: 6px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-salvar {
+  background: #4c9c91;
+  border: none;
+  color: white;
+}
+
+.btn-cancelar {
+  background: transparent;
+  border: 1px solid #7875ae;
+  color: white;
+}
+
+.btn-salvar,
+.btn-cancelar {
+  transition: 0.2s ease;
+}
+
+.btn-salvar:hover {
+  background: #5bb3a6;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(76, 156, 145, 0.35);
+}
+
+.btn-cancelar:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #a6a2df;
+  transform: translateY(-2px);
+}
+
+.editar-footer {
+  height: 48px;
+  padding: 0 55px;
+  background: #1D204A;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  color: #d5d5de;
+}
+
+.footer-logo {
+  font-size: 20px;
+  font-family: "Cherry Bomb One", system-ui;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer-logo img {
+  width: 26px;
+}
+
+.loading {
+  margin-top: 40px;
+  color: #d8d5f2;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .editar-container {
+    padding: 0 24px;
+  }
+
+  .linha {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .editar-topo {
+    flex-direction: column;
+    gap: 22px;
+  }
+}
+
+@media (max-width: 700px) {
+  .editar-header {
+    height: auto;
+    flex-direction: column;
+    gap: 18px;
+    padding: 20px;
+  }
+
+  .editar-header nav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .editar-topo h1 {
+    font-size: 34px;
+  }
+
+  .botoes-form {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .botoes-form button {
+    width: 100%;
+  }
+
+  .editar-footer {
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    height: auto;
+    padding: 14px;
+  }
+}

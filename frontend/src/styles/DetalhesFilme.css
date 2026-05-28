@@ -1,0 +1,248 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap");
+
+.detalhes-page {
+  min-height: 100vh;
+  background: #272A62;
+  color: white;
+  font-family: "Montserrat", sans-serif;
+}
+
+.detalhes-voltar {
+  margin-bottom: 25px;
+}
+
+.detalhes-hero {
+  max-width: 620px;
+  margin-top: 110px;
+}
+
+.detalhes-hero h1 {
+  font-size: 58px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.detalhes-hero p {
+  color: #f0eeff;
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.detalhes-sinopse {
+  line-height: 1.6;
+  max-width: 100%;
+}
+
+.detalhes-acoes {
+  display: flex;
+  gap: 18px;
+  margin-top: 25px;
+}
+
+.btn-favoritar,
+.btn-editar,
+.btn-deletar {
+  height: 52px;
+  padding: 0 22px;
+  border-radius: 10px;
+  background: rgba(25, 24, 65, 0.7);
+  color: white;
+  border: 1px solid #d9d7ea;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
+}
+
+.btn-deletar {
+  background: rgba(100, 45, 70, 0.75);
+  color: #ff6f78;
+  border-color: #b76a82;
+}
+
+.detalhes-content {
+  max-width: 1180px;
+  margin: 52px auto 70px;
+}
+
+.detalhes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 38px;
+}
+
+.detalhes-box {
+  background: #1f1d4d;
+  border: 1px solid #8581b9;
+  border-radius: 50px;
+  padding: 35px 42px;
+}
+
+.detalhes-box h2,
+.elenco h2 {
+  font-size: 30px;
+  margin-bottom: 15px;
+  font-weight: 600;
+  font-family: "Montserrat", sans-serif;
+}
+
+.detalhes-box p {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 6px 14px;
+  margin-bottom: 28px;
+}
+
+.detalhes-box p svg {
+  grid-row: span 2;
+}
+
+.detalhes-box span,
+.producao-item span {
+  color: #bdb9df;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.detalhes-box strong,
+.producao-item strong {
+  font-size: 18px;
+  font-weight: 500;
+  color: white;
+}
+
+.producao-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 30px;
+}
+
+.elenco {
+  margin-top: 35px;
+  padding: 0 35px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tags span {
+  background: #4e9c91;
+  color: white;
+  padding: 5px 18px;
+  border-radius: 16px;
+  font-size: 12px;
+}
+
+.loading {
+  padding: 60px;
+  font-size: 18px;
+}
+
+.detalhes-banner {
+  min-height: 650px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  padding: 0 70px 55px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.detalhes-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(28, 25, 76, 0.95), rgba(28, 25, 76, 0.45), rgba(28, 25, 76, 0.25)),
+    linear-gradient(to top, #2a2866 0%, rgba(42, 40, 102, 0.2) 42%, rgba(42, 40, 102, 0.05) 100%);
+  z-index: 0;
+}
+
+.detalhes-hero-layout {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  gap: 55px;
+
+  width: 100%;
+  max-width: 1450px;
+
+  margin: 0 auto;
+}
+
+.detalhes-poster {
+  width: 235px;
+  height: 340px;
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.detalhes-logo-titulo {
+  width: 320px;
+  max-height: 150px;
+  object-fit: contain;
+  object-position: left;
+  margin-bottom: 14px;
+}
+
+.detalhes-hero {
+  flex: 1;
+  max-width: 900px;
+  min-width: 0;
+}
+
+.detalhes-voltar {
+  color: #d9d7ea;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 22px;
+  font-size: 18px;
+}
+
+.tags span {
+  background: #4e9c91;
+  color: white;
+  padding: 5px 18px;
+  border-radius: 16px;
+  font-size: 12px;
+  border: 1px solid #d9d7ea;
+}
+
+@media (max-width: 900px) {
+  .detalhes-banner {
+    padding: 80px 24px 40px;
+  }
+
+  .detalhes-hero-layout {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .detalhes-poster {
+    width: 180px;
+    height: 260px;
+  }
+
+  .detalhes-hero h1 {
+    font-size: 38px;
+  }
+
+  .detalhes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detalhes-content {
+    padding: 0 24px;
+  }
+}

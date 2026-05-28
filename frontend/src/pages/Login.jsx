@@ -1,91 +1,139 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import api from "../api/axios";
+import { useNavigate } from "react-router-dom";
+import api from "../services/api";
+import { saveAuth } from "../services/auth";
 import "../styles/Login.css";
 
-import logo from "../../imagens/crepusculo_logo.png";
-import fundo from "../../imagens/fundo_login.png";
-
-export default function Login() {
+export default function Login({ onLogin }) {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [erro, setErro] = useState("");
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
 
-  async function handleLogin(e) {
+  const [erro, setErro] = useState("");
+  const [carregando, setCarregando] = useState(false);
+
+  function handleChange(e) {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  async function handleSubmit(e) {
     e.preventDefault();
     setErro("");
 
+    const email = form.email.trim().toLowerCase();
+
+    if (!email || !form.password) {
+      setErro("Preencha e-mail e senha.");
+      return;
+    }
+
+    setCarregando(true);
+
     try {
-      const response = await api.post("/token/", {
-        username: email,
-        password,
+      localStorage.clear();
+
+      const response = await api.post("/login/", {
+        email,
+        password: form.password,
       });
 
-      localStorage.setItem("access", response.data.access);
-      localStorage.setItem("refresh", response.data.refresh);
+      const accessToken = response.data.access;
+      const refreshToken = response.data.refresh;
+      const usuario = response.data.user;
 
-      navigate("/home");
-    } catch {
-      setErro("E-mail ou senha inválidos.");
+      if (!accessToken) {
+        setErro("Token não recebido do backend.");
+        return;
+      }
+
+      saveAuth(accessToken, refreshToken, usuario);
+
+      if (onLogin) {
+        onLogin();
+      }
+
+      navigate("/home", { replace: true });
+    } catch (error) {
+      console.log("Erro no login:", error.response?.data);
+
+      setErro(
+        error.response?.data?.erro ||
+          error.response?.data?.detail ||
+          "E-mail ou senha inválidos."
+      );
+    } finally {
+      setCarregando(false);
     }
   }
 
   return (
-    <main className="login-page">
-      <section className="login-left">
-        <div className="login-content">
-          <div className="brand-area">
-            <img src={logo} alt="Filminis" className="brand-logo" />
+    <div className="login-container">
+      <div className="login-left">
+        <div className="logo-area">
+          <img src="/imagens/mascote.png" alt="mascote" className="mascote" />
 
-            <div>
-              <h1>Filminis</h1>
-              <p>Bem-vindo de volta.</p>
-              <span>Estamos felizes em revê-lo(a)</span>
-            </div>
+          <div>
+            <h1>Filminis</h1>
+            <p>Bem-vindo de volta.</p>
+            <span>Estamos felizes em revê-lo(a)</span>
           </div>
+        </div>
 
+        <div className="login-content">
           <h2>Login</h2>
 
-          <form onSubmit={handleLogin} className="login-form">
-            <label>E-mail</label>
-            <input
-              type="email"
-              placeholder="Digite seu e-mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+          <form onSubmit={handleSubmit} className="login-form">
+            <div className="input-group">
+              <label>E-mail</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Digite seu e-mail"
+                value={form.email}
+                onChange={handleChange}
+                autoComplete="email"
+                required
+              />
+            </div>
 
-            <label>Senha</label>
-            <input
-              type="password"
-              placeholder="Digite sua senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div className="input-group">
+              <label>Senha</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="Digite sua senha"
+                value={form.password}
+                onChange={handleChange}
+                autoComplete="current-password"
+                required
+              />
+            </div>
 
-            <button type="button" className="forgot-button">
-              Esqueceu sua senha?
+            <p className="forgot">Esqueceu sua senha?</p>
+
+            {erro && <span className="erro">{erro}</span>}
+
+            <button type="submit" disabled={carregando}>
+              {carregando ? "ENTRANDO..." : "ENTRAR"}
             </button>
-
-            {erro && <p className="erro">{erro}</p>}
-
-            <button type="submit" className="login-button">
-              ENTRAR
-            </button>
-
-            <p className="register-text">
-              Não possui uma conta? <Link to="/cadastro">Cadastrar</Link>
-            </p>
           </form>
-        </div>
-      </section>
 
-      <section
-        className="login-right"
-        style={{ backgroundImage: `url(${fundo})` }}
-      />
-    </main>
+          <p className="register">
+            Não possui uma conta?{" "}
+            <span onClick={() => navigate("/cadastro")}>Cadastrar</span>
+          </p>
+        </div>
+      </div>
+
+      <div className="login-right">
+        <img src="/imagens/fundo_login.png" alt="filmes" />
+      </div>
+    </div>
   );
 }

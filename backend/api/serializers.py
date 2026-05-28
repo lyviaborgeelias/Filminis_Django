@@ -5,12 +5,19 @@ from .models import PerfilUsuario, Filme, Favorito, SolicitacaoEdicao
 
 class CadastroSerializer(serializers.ModelSerializer):
     nome = serializers.CharField(write_only=True)
-    telefone = serializers.CharField(write_only=True, required=False, allow_blank=True)
+    telefone = serializers.CharField(write_only=True, required=False)
     password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
-        fields = ["id", "username", "email", "password", "nome", "telefone"]
+        fields = [
+            "id",
+            "username",
+            "email",
+            "password",
+            "nome",
+            "telefone",
+        ]
 
     def create(self, validated_data):
         nome = validated_data.pop("nome")
@@ -19,14 +26,14 @@ class CadastroSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(
             username=validated_data["username"],
             email=validated_data["email"],
-            password=validated_data["password"]
+            password=validated_data["password"],
         )
 
         PerfilUsuario.objects.create(
             usuario=user,
             nome=nome,
             telefone=telefone,
-            tipo="comum"
+            tipo="comum",
         )
 
         return user
@@ -38,11 +45,18 @@ class PerfilSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PerfilUsuario
-        fields = ["id", "username", "email", "nome", "telefone", "foto", "tipo"]
+        fields = [
+            "id",
+            "username",
+            "email",
+            "nome",
+            "telefone",
+            "foto",
+            "tipo",
+        ]
 
 
 class FilmeSerializer(serializers.ModelSerializer):
-    poster = serializers.ImageField(required=False)
 
     class Meta:
         model = Filme
@@ -65,4 +79,9 @@ class SolicitacaoEdicaoSerializer(serializers.ModelSerializer):
     class Meta:
         model = SolicitacaoEdicao
         fields = "__all__"
-        read_only_fields = ["solicitado_por", "dados_antes", "status", "criado_em"]
+        read_only_fields = [
+            "solicitado_por",
+            "dados_antes",
+            "status",
+            "criado_em",
+        ]

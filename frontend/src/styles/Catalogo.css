@@ -1,0 +1,198 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap");
+
+.catalogo-page {
+  min-height: 100vh;
+  background: #272a62;
+  color: white;
+  font-family: "Montserrat", sans-serif;
+}
+
+.catalogo-content {
+  padding: 36px 55px 80px;
+  min-height: calc(100vh - 114px);
+}
+
+.voltar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #d7d7ef;
+  text-decoration: none;
+  font-size: 15px;
+  margin-bottom: 18px;
+}
+
+.catalogo-content h1 {
+  font-size: 40px;
+  margin: 0;
+  font-weight: 600;
+  font-family: "Montserrat", sans-serif;
+}
+
+.subtitulo {
+  margin-top: 4px;
+  color: #d7d7ef;
+  font-size: 15px;
+}
+
+.barra-busca {
+  margin-top: 24px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #20234f;
+  border: 1px solid #4b4f88;
+  border-radius: 5px;
+  padding: 0 14px;
+}
+
+.barra-busca input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-family: "Montserrat", sans-serif;
+}
+
+.barra-busca input::placeholder {
+  color: #aaaed2;
+}
+
+.filtros {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 14px;
+  color: #bfc2e8;
+  font-size: 13px;
+}
+
+.filtros span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filtros select {
+  width: 185px;
+  height: 27px;
+  background: #272a62;
+  color: white;
+  border: 1px solid #696da5;
+  border-radius: 15px;
+  padding: 0 12px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
+}
+
+.lista-filmes {
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.catalogo-card {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  background: #20234f;
+  border: 1px solid #777bb4;
+  border-radius: 10px;
+  padding: 20px 26px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.18);
+}
+
+.catalogo-card img {
+  width: 150px;
+  height: 200px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.catalogo-card h2 {
+    font-family: "Montserrat", sans-serif;
+  margin: 0 0 8px;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.info-filme {
+  font-size: 14px;
+  color: #d7d7ef;
+  margin-bottom: 10px;
+  font-weight: 400;
+}
+
+.sinopse {
+  font-size: 14px;
+  color: #eeeeff;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.card-acoes {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  margin-left: auto;
+}
+
+.card-acoes button {
+  height: 49px;
+  min-width: 104px;
+  border-radius: 8px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-editar {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid #d1cfee;
+}
+
+.btn-editar:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.btn-deletar {
+  background: rgba(255, 86, 102, 0.18);
+  color: #ff626b;
+  border: 1px solid #b982a3;
+}
+
+.btn-deletar:hover {
+  background: rgba(255, 86, 102, 0.28);
+}
+
+.loading {
+  margin-top: 40px;
+  color: #d8d5f2;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+@media (max-width: 700px) {
+  .catalogo-content {
+    padding: 28px 25px 60px;
+  }
+
+  .filtros {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .catalogo-card {
+    align-items: flex-start;
+  }
+}
