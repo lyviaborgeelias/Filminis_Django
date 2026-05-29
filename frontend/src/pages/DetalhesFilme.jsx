@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import api from "../services/api";
 import "../styles/DetalhesFilme.css";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 export default function DetalhesFilme() {
   const { id } = useParams();
@@ -155,36 +157,7 @@ export default function DetalhesFilme() {
 
   return (
     <div className="detalhes-page">
-      <header className="navbar">
-        <nav>
-          <Link to="/home">Home</Link>
-          <Link to="/catalogo">Catálogo</Link>
-          <Link to="/favoritos">Favoritos</Link>
-          <Link to="/adicionar">+ Adicionar</Link>
-        </nav>
-
-        <div className="user-area">
-          {isAdmin && <Bell size={18} onClick={() => navigate("/aprovacao")} />}
-
-          <div className="user-info" onClick={() => navigate("/perfil")}>
-            <img
-              src={imagemUsuario}
-              alt="Usuário"
-              className="user-avatar"
-              onError={(e) => {
-                e.currentTarget.src = "/imagens/user.png";
-              }}
-            />
-            <span>{user?.nome || "Usuário"}</span>
-          </div>
-
-          <button onClick={sair} className="logout-btn">
-            <LogOut size={16} />
-            Logout
-          </button>
-        </div>
-      </header>
-
+      <Navbar/>
       <section
         className="detalhes-banner"
         style={{ backgroundImage: `url(${getPoster()})` }}
@@ -304,15 +277,7 @@ export default function DetalhesFilme() {
           </div>
         </section>
       </main>
-
-      <footer className="catalogo-footer">
-        <div className="footer-logo">
-          <img src="/imagens/mascote.png" alt="mascote" />
-          <strong>Filminis</strong>
-        </div>
-
-        <span>© 2026 Copyright - Lyvia Borges</span>
-      </footer>
+      <Footer/>
     </div>
   );
 }

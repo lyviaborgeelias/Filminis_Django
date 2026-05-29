@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+.footer {
+  height: 48px;
+  padding: 0 55px;
+  background: #1d204a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #d5d5de;
+  font-family: "Montserrat", sans-serif;
+}
+
+strong{
+    font-family: "Cherry Bomb One", system-ui;
+    font-weight: 400;
+    font-size: 25px;
+}
+
+.footer-logo {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.footer-logo img {
+  width: 26px;
+}
+
+@media (max-width: 700px) {
+  .footer {
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    height: auto;
+    padding: 14px;
+  }
+}

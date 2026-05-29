@@ -1,10 +1,14 @@
-from rest_framework.permissions import BasePermission
+from rest_framework import permissions
 
 
-class IsAdminPerfil(BasePermission):
+class IsAdminPerfil(permissions.BasePermission):
     def has_permission(self, request, view):
-        return (
-            request.user.is_authenticated
-            and hasattr(request.user, "perfil")
-            and request.user.perfil.tipo == "admin"
-        )
+        if not request.user or not request.user.is_authenticated:
+            return False
+
+        perfil = getattr(request.user, "perfil_usuario", None)
+
+        if not perfil:
+            return False
+
+        return perfil.tipo == "admin"

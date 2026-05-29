@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, Bell, LogOut } from "lucide-react";
 import api from "../services/api";
 import "../styles/EditarFilme.css";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 export default function AdicionarFilme() {
   const navigate = useNavigate();
@@ -153,36 +155,7 @@ export default function AdicionarFilme() {
 
   return (
     <div className="editar-page">
-      <header className="editar-header">
-        <nav>
-          <Link to="/home">Home</Link>
-          <Link to="/catalogo">Catálogo</Link>
-          <Link to="/favoritos">Favoritos</Link>
-          <Link to="/adicionar">+ Adicionar</Link>
-        </nav>
-
-        <div className="header-user">
-          {isAdmin && <Bell size={18} onClick={() => navigate("/aprovacao")} />}
-
-          <div className="user-info" onClick={() => navigate("/perfil")}>
-            <img
-              src={imagemUsuario}
-              alt="Usuário"
-              className="header-avatar"
-              onError={(e) => {
-                e.currentTarget.src = "/imagens/user.png";
-              }}
-            />
-
-            <span>{user?.nome || "Usuário"}</span>
-          </div>
-
-          <button className="logout-btn" onClick={sair}>
-            <LogOut size={16} />
-            Logout
-          </button>
-        </div>
-      </header>
+      <Navbar />
 
       <main className="editar-content">
         <div className="editar-container">
@@ -330,15 +303,7 @@ export default function AdicionarFilme() {
           </form>
         </div>
       </main>
-
-      <footer className="editar-footer">
-        <div className="footer-logo">
-          <img src="/imagens/mascote.png" alt="logo" />
-          <strong>Filminis</strong>
-        </div>
-
-        <span>© 2026 Copyright - Lyvia Borges</span>
-      </footer>
-    </div>
+      <Footer/>
+    </div >
   );
 }

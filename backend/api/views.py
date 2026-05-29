@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
+
 from .models import PerfilUsuario, Filme, Favorito, SolicitacaoEdicao
 from .serializers import (
     CadastroSerializer,
@@ -16,6 +17,10 @@ from .serializers import (
 from .permissions import IsAdminPerfil
 
 
+def get_perfil(user):
+    return get_object_or_404(PerfilUsuario, usuario=user)
+
+
 class CadastroView(generics.CreateAPIView):
     serializer_class = CadastroSerializer
     permission_classes = [AllowAny]
@@ -25,12 +30,12 @@ class PerfilView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        perfil = get_object_or_404(PerfilUsuario, usuario=request.user)
+        perfil = get_perfil(request.user)
         serializer = PerfilSerializer(perfil)
         return Response(serializer.data)
 
     def put(self, request):
-        perfil = get_object_or_404(PerfilUsuario, usuario=request.user)
+        perfil = get_perfil(request.user)
         serializer = PerfilSerializer(perfil, data=request.data, partial=True)
 
         if serializer.is_valid():
@@ -38,6 +43,7 @@ class PerfilView(APIView):
             return Response(serializer.data)
 
         return Response(serializer.errors, status=400)
+
 
 class LoginEmailView(APIView):
     permission_classes = [AllowAny]
@@ -47,19 +53,14 @@ class LoginEmailView(APIView):
         password = request.data.get("password")
 
         if not email or not password:
-            return Response(
-                {"erro": "E-mail e senha são obrigatórios."},
-                status=400
-            )
+            return Response({"erro": "E-mail e senha são obrigatórios."}, status=400)
 
         user = User.objects.filter(email=email).first()
 
         if not user or not user.check_password(password):
-            return Response(
-                {"erro": "E-mail ou senha inválidos."},
-                status=401
-            )
+            return Response({"erro": "E-mail ou senha inválidos."}, status=401)
 
+        perfil = PerfilUsuario.objects.filter(usuario=user).first()
         refresh = RefreshToken.for_user(user)
 
         return Response({
@@ -69,10 +70,12 @@ class LoginEmailView(APIView):
                 "id": user.id,
                 "username": user.username,
                 "email": user.email,
-                "nome": user.perfil.nome if hasattr(user, "perfil") else "",
-                "tipo": user.perfil.tipo if hasattr(user, "perfil") else "comum",
+                "nome": perfil.nome if perfil else user.username,
+                "tipo": perfil.tipo if perfil else "comum",
+                "foto": perfil.foto.url if perfil and perfil.foto else None,
             }
         })
+
 
 class FilmeListCreateView(APIView):
     permission_classes = [IsAuthenticated]
@@ -101,21 +104,15 @@ class FilmeListCreateView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = FilmeSerializer(
-            data=request.data,
-            context={"request": request}
-        )
+        perfil = get_perfil(request.user)
+
+        serializer = FilmeSerializer(data=request.data)
 
         if serializer.is_valid():
-            perfil = request.user.perfil
-
-            status_filme = "aprovado" if perfil.tipo == "admin" else "pendente"
-
             serializer.save(
                 criado_por=request.user,
-                status=status_filme
+                status="aprovado" if perfil.tipo == "admin" else "pendente",
             )
-
             return Response(serializer.data, status=201)
 
         return Response(serializer.errors, status=400)
@@ -125,40 +122,37 @@ class FilmeDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, pk):
+        perfil = get_perfil(request.user)
         filme = get_object_or_404(Filme, pk=pk)
 
-        if filme.status != "aprovado" and request.user.perfil.tipo != "admin":
+        if filme.status != "aprovado" and perfil.tipo != "admin":
             return Response({"erro": "Filme não aprovado."}, status=403)
 
         serializer = FilmeSerializer(filme)
         return Response(serializer.data)
 
     def put(self, request, pk):
+        perfil = get_perfil(request.user)
         filme = get_object_or_404(Filme, pk=pk)
 
-        if request.user.perfil.tipo == "admin":
-            serializer = FilmeSerializer(filme, data=request.data, partial=True)
+        if perfil.tipo != "admin":
+            return Response(
+                {"erro": "Usuário comum deve solicitar edição."},
+                status=403
+            )
 
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data)
+        serializer = FilmeSerializer(filme, data=request.data, partial=True)
 
-            return Response(serializer.errors, status=400)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
 
-        dados_antes = FilmeSerializer(filme).data
-
-        solicitacao = SolicitacaoEdicao.objects.create(
-            filme=filme,
-            solicitado_por=request.user,
-            dados_antes=dados_antes,
-            dados_depois=request.data,
-        )
-
-        serializer = SolicitacaoEdicaoSerializer(solicitacao)
-        return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
     def delete(self, request, pk):
-        if request.user.perfil.tipo != "admin":
+        perfil = get_perfil(request.user)
+
+        if perfil.tipo != "admin":
             return Response({"erro": "Apenas administradores podem deletar filmes."}, status=403)
 
         filme = get_object_or_404(Filme, pk=pk)
@@ -167,11 +161,40 @@ class FilmeDetailView(APIView):
         return Response({"mensagem": "Filme deletado com sucesso."})
 
 
+class SolicitarEdicaoFilmeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        perfil = get_perfil(request.user)
+
+        if perfil.tipo == "admin":
+            return Response(
+                {"erro": "Administrador pode editar diretamente."},
+                status=400
+            )
+
+        filme = get_object_or_404(Filme, pk=pk, status="aprovado")
+
+        dados_antes = FilmeSerializer(filme).data
+        dados_depois = request.data.copy()
+
+        solicitacao = SolicitacaoEdicao.objects.create(
+            filme=filme,
+            solicitado_por=request.user,
+            dados_antes=dados_antes,
+            dados_depois=dados_depois,
+            status="pendente",
+        )
+
+        serializer = SolicitacaoEdicaoSerializer(solicitacao)
+        return Response(serializer.data, status=201)
+
+
 class FilmesPendentesView(APIView):
     permission_classes = [IsAdminPerfil]
 
     def get(self, request):
-        filmes = Filme.objects.filter(status="pendente")
+        filmes = Filme.objects.filter(status="pendente").order_by("-criado_em")
         serializer = FilmeSerializer(filmes, many=True)
         return Response(serializer.data)
 
@@ -202,7 +225,7 @@ class EdicoesPendentesView(APIView):
     permission_classes = [IsAdminPerfil]
 
     def get(self, request):
-        edicoes = SolicitacaoEdicao.objects.filter(status="pendente")
+        edicoes = SolicitacaoEdicao.objects.filter(status="pendente").order_by("-criado_em")
         serializer = SolicitacaoEdicaoSerializer(edicoes, many=True)
         return Response(serializer.data)
 
@@ -211,7 +234,7 @@ class AprovarEdicaoView(APIView):
     permission_classes = [IsAdminPerfil]
 
     def post(self, request, pk):
-        solicitacao = get_object_or_404(SolicitacaoEdicao, pk=pk)
+        solicitacao = get_object_or_404(SolicitacaoEdicao, pk=pk, status="pendente")
         filme = solicitacao.filme
 
         for campo, valor in solicitacao.dados_depois.items():
@@ -230,7 +253,7 @@ class RecusarEdicaoView(APIView):
     permission_classes = [IsAdminPerfil]
 
     def post(self, request, pk):
-        solicitacao = get_object_or_404(SolicitacaoEdicao, pk=pk)
+        solicitacao = get_object_or_404(SolicitacaoEdicao, pk=pk, status="pendente")
         solicitacao.status = "recusado"
         solicitacao.save()
 
@@ -274,3 +297,19 @@ class DesfavoritarFilmeView(APIView):
 
         favorito.delete()
         return Response({"mensagem": "Filme removido dos favoritos."})
+
+
+class AlterarFotoPerfilView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        perfil = get_perfil(request.user)
+
+        if "foto" not in request.FILES:
+            return Response({"erro": "Nenhuma imagem enviada."}, status=400)
+
+        perfil.foto = request.FILES["foto"]
+        perfil.save()
+
+        serializer = PerfilSerializer(perfil)
+        return Response(serializer.data)

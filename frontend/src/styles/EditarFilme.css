@@ -15,60 +15,6 @@
   flex-direction: column;
 }
 
-.editar-header {
-  width: 100%;
-  height: 66px;
-  background: #1d1b4d;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 55px;
-}
-
-.editar-header nav {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-}
-
-.editar-header nav a {
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
-  font-weight: 300;
-}
-
-.editar-header nav a:hover {
-  color: #d7d5ff;
-}
-
-.header-user {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 16px;
-  font-weight: 300;
-}
-
-.header-avatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.logout-btn {
-  background: transparent;
-  border: none;
-  color: white;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: "Montserrat", sans-serif;
-  font-size: 15px;
-  cursor: pointer;
-}
-
 .editar-container {
   width: 100%;
   padding: 36px 55px 80px;
@@ -246,29 +192,6 @@
   background: rgba(255, 255, 255, 0.08);
   border-color: #a6a2df;
   transform: translateY(-2px);
-}
-
-.editar-footer {
-  height: 48px;
-  padding: 0 55px;
-  background: #1D204A;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 16px;
-  color: #d5d5de;
-}
-
-.footer-logo {
-  font-size: 20px;
-  font-family: "Cherry Bomb One", system-ui;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.footer-logo img {
-  width: 26px;
 }
 
 .loading {

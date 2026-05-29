@@ -123,11 +123,6 @@ export default function Login({ onLogin }) {
               {carregando ? "ENTRANDO..." : "ENTRAR"}
             </button>
           </form>
-
-          <p className="register">
-            Não possui uma conta?{" "}
-            <span onClick={() => navigate("/cadastro")}>Cadastrar</span>
-          </p>
         </div>
       </div>
 

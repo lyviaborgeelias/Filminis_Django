@@ -13,7 +13,9 @@ from .views import (
     FavoritosView,
     FavoritarFilmeView,
     DesfavoritarFilmeView,
-    LoginEmailView
+    LoginEmailView,
+    AlterarFotoPerfilView,
+    SolicitarEdicaoFilmeView
 )
 
 urlpatterns = [
@@ -35,4 +37,6 @@ urlpatterns = [
     path("filmes/<int:pk>/favoritar/", FavoritarFilmeView.as_view()),
     path("filmes/<int:pk>/desfavoritar/", DesfavoritarFilmeView.as_view()),
     path("login/", LoginEmailView.as_view()),
+    path("perfil/foto/", AlterarFotoPerfilView.as_view()),
+    path("filmes/<int:pk>/solicitar-edicao/", SolicitarEdicaoFilmeView.as_view()),
 ]

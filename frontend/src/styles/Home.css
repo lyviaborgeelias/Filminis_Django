@@ -8,73 +8,11 @@ body {
   overflow-x: hidden;
 }
 
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-}
-
-.user-avatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
 .home-page {
     min-height: 100vh;
     background: #272A62;
     color: white;
     font-family: "Montserrat", sans-serif;
-}
-
-.navbar {
-    height: 66px;
-    padding: 0 55px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #1D204A;
-    font-size: 16px;
-    font-weight: 300;
-}
-
-.navbar nav {
-    display: flex;
-    gap: 22px;
-}
-
-.navbar a {
-    color: white;
-    text-decoration: none;
-}
-
-.user-area {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 16px;
-  font-weight: 300;
-}
-
-.user-area svg:hover {
-  opacity: 0.7;
-  transform: scale(1.1);
-}
-
-.user-area button {
-    font-size: 16px;
-    font-weight: 300;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    background: transparent;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-family: "Montserrat", sans-serif;
-    transition: 0.2s;
 }
 
 .banner {
@@ -211,29 +149,6 @@ body {
   color: #c9c9d8;
   margin: 0;
   text-align: left;
-}
-
-footer {
-    height: 48px;
-    padding: 0 55px;
-    background: #1D204A;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 16px;
-    color: #d5d5de;
-}
-
-.footer-logo {
-    font-size: 20px;
-    font-family: "Cherry Bomb One", system-ui;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.footer-logo img {
-    width: 26px;
 }
 
 .loading {

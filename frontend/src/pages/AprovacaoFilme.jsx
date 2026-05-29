@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import api from "../services/api";
 import "../styles/AprovacaoFilme.css";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 export default function AprovacaoFilmes() {
   const navigate = useNavigate();
@@ -50,15 +52,27 @@ export default function AprovacaoFilmes() {
       setCarregando(true);
       setErro("");
 
-      const [filmesResponse, edicoesResponse] = await Promise.all([
-        api.get("/filmes/pendentes/"),
-        api.get("/edicoes/pendentes/"),
-      ]);
+      let filmes = [];
+      let edicoes = [];
 
-      setFilmesPendentes(Array.isArray(filmesResponse.data) ? filmesResponse.data : []);
-      setEdicoesPendentes(Array.isArray(edicoesResponse.data) ? edicoesResponse.data : []);
+      try {
+        const filmesResponse = await api.get("/filmes/pendentes/");
+        filmes = Array.isArray(filmesResponse.data) ? filmesResponse.data : [];
+      } catch (error) {
+        console.log("Erro ao buscar filmes pendentes:", error.response?.data);
+      }
+
+      try {
+        const edicoesResponse = await api.get("/edicoes/pendentes/");
+        edicoes = Array.isArray(edicoesResponse.data) ? edicoesResponse.data : [];
+      } catch (error) {
+        console.log("Erro ao buscar edições pendentes:", error.response?.data);
+      }
+
+      setFilmesPendentes(filmes);
+      setEdicoesPendentes(edicoes);
     } catch (error) {
-      console.log("Erro ao buscar pendências:", error.response?.data);
+      console.log("Erro geral:", error.response?.data);
       setErro("Erro ao carregar solicitações.");
     } finally {
       setCarregando(false);
@@ -148,35 +162,7 @@ export default function AprovacaoFilmes() {
 
   return (
     <div className="aprovacao-page">
-      <header className="navbar">
-        <nav>
-          <Link to="/home">Home</Link>
-          <Link to="/catalogo">Catálogo</Link>
-          <Link to="/favoritos">Favoritos</Link>
-          <Link to="/adicionar">+ Adicionar</Link>
-        </nav>
-
-        <div className="user-area">
-          <Bell size={18} />
-          <div className="user-info" onClick={() => navigate("/perfil")}>
-            <img
-              src={user?.foto || "/imagens/user.png"}
-              alt="Usuário"
-              className="user-avatar"
-              onError={(e) => {
-                e.currentTarget.src = "/imagens/user.png";
-              }}
-            />
-            <span>{user?.nome || "Usuário"}</span>
-          </div>
-
-          <button onClick={sair} className="logout-btn">
-            <LogOut size={16} />
-            Logout
-          </button>
-        </div>
-      </header>
-
+      <Navbar />
       <main className="aprovacao-dashboard">
         <Link to="/home" className="voltar">
           <ArrowLeft size={18} />
@@ -257,9 +243,8 @@ export default function AprovacaoFilmes() {
                 listaAtual.map((item) => (
                   <article
                     key={item.id}
-                    className={`solicitacao-card ${
-                      selecionado?.id === item.id ? "selecionado" : ""
-                    }`}
+                    className={`solicitacao-card ${selecionado?.id === item.id ? "selecionado" : ""
+                      }`}
                     onClick={() =>
                       abrirDetalhes(item, aba === "adicoes" ? "adicao" : "edicao")
                     }
@@ -398,15 +383,7 @@ export default function AprovacaoFilmes() {
           </section>
         )}
       </main>
-
-      <footer className="catalogo-footer">
-        <div className="footer-logo">
-          <img src="/imagens/mascote.png" alt="mascote" />
-          <strong>Filminis</strong>
-        </div>
-
-        <span>© 2026 Copyright - Lyvia Borges</span>
-      </footer>
+      <Footer />
     </div>
   );
 }

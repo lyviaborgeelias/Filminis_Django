@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Bell, LogOut } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import api from "../services/api";
 import "../styles/EditarFilme.css";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 export default function EditarFilme() {
   const { id } = useParams();
@@ -41,7 +43,7 @@ export default function EditarFilme() {
       setUser(response.data);
       localStorage.setItem("user", JSON.stringify(response.data));
     } catch (error) {
-      console.log("Erro ao buscar usuário:", error);
+      console.log("Erro ao buscar usuário:", error.response?.data);
     }
   }
 
@@ -99,10 +101,7 @@ export default function EditarFilme() {
       (item) => item.toLowerCase() === genero.toLowerCase()
     );
 
-    if (!existe) {
-      setGeneros([...generos, genero]);
-    }
-
+    if (!existe) setGeneros([...generos, genero]);
     setNovoGenero("");
   }
 
@@ -114,10 +113,7 @@ export default function EditarFilme() {
       (item) => item.toLowerCase() === ator.toLowerCase()
     );
 
-    if (!existe) {
-      setAtores([...atores, ator]);
-    }
-
+    if (!existe) setAtores([...atores, ator]);
     setNovoAtor("");
   }
 
@@ -147,7 +143,6 @@ export default function EditarFilme() {
     e.preventDefault();
 
     const erroValidacao = validarCampos();
-
     if (erroValidacao) {
       alert(erroValidacao);
       return;
@@ -170,63 +165,32 @@ export default function EditarFilme() {
         linguagem: form.linguagem.trim(),
       };
 
-      await api.put(`/filmes/${id}/`, payload);
-
       if (user?.tipo === "admin") {
+        await api.put(`/filmes/${id}/`, payload);
         alert("Filme atualizado com sucesso!");
       } else {
+        await api.post(`/filmes/${id}/solicitar-edicao/`, payload);
         alert("Solicitação de alteração enviada para aprovação!");
       }
 
       navigate("/catalogo");
     } catch (error) {
       console.log("Erro ao salvar:", error.response?.data);
-      alert("Erro ao salvar alterações.");
+      alert(
+        error.response?.data?.detail ||
+          error.response?.data?.erro ||
+          "Erro ao salvar alterações."
+      );
     } finally {
       setSalvando(false);
     }
   }
 
-  function sair() {
-    localStorage.clear();
-    navigate("/", { replace: true });
-  }
-
-  const imagemUsuario = user?.foto || "/imagens/user.png";
   const isAdmin = user?.tipo === "admin";
 
   return (
     <div className="editar-page">
-      <header className="editar-header">
-        <nav>
-          <Link to="/home">Home</Link>
-          <Link to="/catalogo">Catálogo</Link>
-          <Link to="/favoritos">Favoritos</Link>
-          <Link to="/adicionar">+ Adicionar</Link>
-        </nav>
-
-        <div className="header-user">
-          {isAdmin && <Bell size={18} onClick={() => navigate("/aprovacao")} />}
-
-          <div className="user-info" onClick={() => navigate("/perfil")}>
-            <img
-              src={imagemUsuario}
-              alt="Usuário"
-              className="header-avatar"
-              onError={(e) => {
-                e.currentTarget.src = "/imagens/user.png";
-              }}
-            />
-
-            <span>{user?.nome || "Usuário"}</span>
-          </div>
-
-          <button className="logout-btn" onClick={sair}>
-            <LogOut size={16} />
-            Logout
-          </button>
-        </div>
-      </header>
+      <Navbar />
 
       <main className="editar-content">
         <div className="editar-container">
@@ -301,20 +265,12 @@ export default function EditarFilme() {
               <div className="linha">
                 <div>
                   <label>Estúdio</label>
-                  <input
-                    name="produtora"
-                    value={form.produtora}
-                    onChange={alterarCampo}
-                  />
+                  <input name="produtora" value={form.produtora} onChange={alterarCampo} />
                 </div>
 
                 <div>
                   <label>Orçamento</label>
-                  <input
-                    name="orcamento"
-                    value={form.orcamento}
-                    onChange={alterarCampo}
-                  />
+                  <input name="orcamento" value={form.orcamento} onChange={alterarCampo} />
                 </div>
               </div>
 
@@ -326,11 +282,7 @@ export default function EditarFilme() {
 
                 <div>
                   <label>Idioma</label>
-                  <input
-                    name="linguagem"
-                    value={form.linguagem}
-                    onChange={alterarCampo}
-                  />
+                  <input name="linguagem" value={form.linguagem} onChange={alterarCampo} />
                 </div>
               </div>
 
@@ -386,14 +338,7 @@ export default function EditarFilme() {
         </div>
       </main>
 
-      <footer className="editar-footer">
-        <div className="footer-logo">
-          <img src="/imagens/mascote.png" alt="logo" />
-          <strong>Filminis</strong>
-        </div>
-
-        <span>© 2026 Copyright - Lyvia Borges</span>
-      </footer>
+      <Footer />
     </div>
   );
 }

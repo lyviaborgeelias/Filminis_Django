@@ -7,6 +7,7 @@ import EditarFilme from "./pages/EditarFilme";
 import DetalhesFilme from "./pages/DetalhesFilme";
 import AdicionarFilme from "./pages/AdicionarFilme";
 import AprovacaoFilmes from "./pages/AprovacaoFilme";
+import Perfil from "./pages/Perfil";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/editar-filme/:id" element={<EditarFilme />} />
         <Route path="/adicionar" element={<AdicionarFilme />} />
         <Route path="/aprovacao" element={<AprovacaoFilmes />} />
+        <Route path="/perfil" element={<Perfil />} />
       </Routes>
     </BrowserRouter>
   );

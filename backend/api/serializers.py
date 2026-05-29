@@ -10,14 +10,7 @@ class CadastroSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = [
-            "id",
-            "username",
-            "email",
-            "password",
-            "nome",
-            "telefone",
-        ]
+        fields = ["id", "username", "email", "password", "nome", "telefone"]
 
     def create(self, validated_data):
         nome = validated_data.pop("nome")
@@ -45,19 +38,10 @@ class PerfilSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PerfilUsuario
-        fields = [
-            "id",
-            "username",
-            "email",
-            "nome",
-            "telefone",
-            "foto",
-            "tipo",
-        ]
+        fields = ["id", "username", "email", "nome", "telefone", "foto", "tipo"]
 
 
 class FilmeSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Filme
         fields = "__all__"
@@ -79,9 +63,4 @@ class SolicitacaoEdicaoSerializer(serializers.ModelSerializer):
     class Meta:
         model = SolicitacaoEdicao
         fields = "__all__"
-        read_only_fields = [
-            "solicitado_por",
-            "dados_antes",
-            "status",
-            "criado_em",
-        ]
+        read_only_fields = ["solicitado_por", "dados_antes", "status", "criado_em"]

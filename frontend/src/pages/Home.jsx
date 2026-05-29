@@ -3,6 +3,8 @@ import api from "../services/api";
 import { useNavigate, Link } from "react-router-dom";
 import { Heart, LogOut, Play, Bell, ArrowRight } from "lucide-react";
 import "../styles/Home.css";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const API_URL = "http://127.0.0.1:8000";
 
@@ -109,39 +111,7 @@ export default function Home() {
 
   return (
     <div className="home-page">
-      <header className="navbar">
-        <nav>
-          <Link to="/home">Home</Link>
-          <Link to="/catalogo">Catálogo</Link>
-          <Link to="/favoritos">Favoritos</Link>
-          <Link to="/adicionar">+ Adicionar</Link>
-        </nav>
-
-        <div className="user-area">
-          {user?.tipo === "admin" && (
-            <Bell size={18} onClick={() => navigate("/aprovacao")} />
-          )}
-
-          <div className="user-info" onClick={() => navigate("/perfil")}>
-            <img
-              src={getUserImage()}
-              alt="usuario"
-              className="user-avatar"
-              loading="lazy"
-              onError={(e) => {
-                e.currentTarget.src = "/imagens/user.png";
-              }}
-            />
-            <span>{user?.nome || "Usuário"}</span>
-          </div>
-
-          <button onClick={sair}>
-            <LogOut size={15} />
-            Logout
-          </button>
-        </div>
-      </header>
-
+      <Navbar/>
       {carregando && filmes.length === 0 ? (
         <main className="content">
           <p className="loading">Carregando filmes...</p>
@@ -235,15 +205,7 @@ export default function Home() {
           </main>
         </>
       )}
-
-      <footer>
-        <div className="footer-logo">
-          <img src="/imagens/mascote.png" alt="mascote" />
-          <strong>Filminis</strong>
-        </div>
-
-        <p>© 2026 Copyright - Lyvia Borges</p>
-      </footer>
+      <Footer/>
     </div>
   );
 }
