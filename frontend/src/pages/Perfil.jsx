@@ -79,7 +79,7 @@ export default function Perfil() {
   }
 
   function getFotoUsuario() {
-    if (!user?.foto) return "/imagens/user.png";
+    if (!user?.foto) return "/imagens/user.jpg";
 
     if (user.foto.startsWith("http")) {
       return user.foto;
@@ -119,7 +119,7 @@ export default function Perfil() {
                 alt="Foto do usuário"
                 className="perfil-avatar"
                 onError={(e) => {
-                  e.currentTarget.src = "/imagens/user.png";
+                  e.currentTarget.src = "/imagens/user.jpg";
                 }}
               />
 

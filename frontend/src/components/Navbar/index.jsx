@@ -64,7 +64,7 @@ export default function Navbar() {
   }
 
   function getFotoUsuario() {
-    if (!user?.foto) return "/imagens/user.png";
+    if (!user?.foto) return "/imagens/user.jpg";
 
     if (user.foto.startsWith("http")) {
       return `${user.foto}?v=${Date.now()}`;
